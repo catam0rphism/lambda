@@ -1,0 +1,161 @@
+\documentclass[lambda.tex]{subfiles}
+\begin{document}
+
+\paragraph{Введение.} ~\\
+
+\begin{tcolorbox}
+VODAVODAVODA
+$\rb$
+$\rbm$
+\end{tcolorbox}
+
+Опишем лямбда исчисление формально
+Множество лямбда-термов строится из бесконечного множества переменных $\mathcal{V}$ использованием аппликации и абстракции:
+\[\mathcal{V} = \{ v, v', v'', v''', ... \}\]
+
+При этом:
+\begin{align*}
+x \in \mathcal{V} & \implies x \in \Lambda & \text{(Переменная является лямбда-термом)}\\
+M, N \in \mathcal{V} & \implies M N \in \Lambda & \text{(Аппликация является лямбда-термом)}\\
+M \in \mathcal{V}, v \in \mathcal{V} & \implies \lambda v.M \in \Lambda & \text{(Абстракция является лямбда-термом)}
+\end{align*}
+
+Или же, используя БНФ:
+\begin{align*}
+var &::= v|var'\\
+\Lambda &::= var | (\textit{var var}) | ( \lambda var . \Lambda )
+\end{align*}
+
+В дальнейшем условимся, что:
+\begin{itemize}
+\item\(x,y,z,\dots - \text{произвольные переменные.}\)
+\item\(M,N,L,\dots - \text{произвольные лямбда термы.}\)
+\item Скобки верхнего уровня опускаются.
+\item Аппликация правоассоциативна, т.е.\\
+\[F\ M_1 \ M_2 \ \dots\ M_n \equiv (\dots((F\ M_1)\ M_2)\ \dots\ M_n)\]
+\item Соответственно для абстракции справедливо
+\[\lambda x_1 \ x_2 \ \dots\ x_n .M \equiv \lambda x_1 .(\lambda x_2 .\ \dots\ (\lambda x_n .M))\]
+\end{itemize}
+
+Множеством свободных переменных терма $N$ называется $FV(N)$, индуктивно определяемое по следующим правилам:
+\begin{align*}
+FV(x) &\equiv \{x\}\\
+FV(M\ N) &\equiv FV(M)\cup FV(N)\\
+FV(\lambda x.N) &\equiv FV(N)\setminus\{x\}
+\end{align*}
+
+Мы будем называть переменную связанной, если она не принадлежит множеству свободных. Множество связанных переменных терма $N$ принято обозначать как $BV(N)$ Заметим, что переменная связана, если она образует абстракцию.
+
+Мы будем называть терм $M$ закрытым (или комбинатором), если\\ \(FV(M) \equiv \varnothing\). Множество комбинаторов обозначим как $\Lambda^\circ$.
+
+\begin{tcolorbox}
+Введем на $\Lambda$ отношение эквивалентности, задаваемое следующим образом:
+\begin{align*}
+\forall P &=_\alpha P\\
+\lambda x.P &=_\alpha \lambda y.P[x:=y] \text{ if } y \not\in FV(P)
+\end{align*}
+
+Это отношение носит название $\alpha$-эквивалентность. Так же напишем некоторые аксиомы для этого отношения:
+
+\begin{align*}
+M &=_\alpha M\\
+M =_\alpha N &\Rightarrow N =_\alpha M\\
+M =_\alpha N, N =_\alpha L &\Rightarrow M =_\alpha L\\
+\\
+M =_\alpha M' &\Rightarrow M\ Z =_\alpha M'\ Z\\
+M =_\alpha M' &\Rightarrow Z\ M =_\alpha Z\ M'\\
+M =_\alpha M' &\Rightarrow \lambda x.M =_\alpha \lambda x.M'
+\end{align*}
+Если $M =_\alpha N$, иногда также пишут $\lambda\models M =_\alpha N$
+
+%TODO: перепилить как правила вывода
+
+Обобщая определения выше, $M$ и $N$ равны (альфа-эквивалентны), если можно получить один из другого, путем замены имен связанных переменных. Любые два равных терма в одинаковом контексте так же будут равны.
+%Это так ты про альфа-эквивалентность коротко? Вот пидор.
+%[Д] Тип да. Так лучше?
+
+Сам процесс замены имени носит название $\alpha$-конверсия и определяется следующим образом:
+\begin{equation*}
+\lambda x.M \rightarrow_\alpha \lambda y.(M[x := y]) if y \not\in FV(M)\tag{$\alpha$}
+\end{equation*}
+% запили как с бетой
+% DONE
+
+
+
+\end{tcolorbox}
+
+Результат подстановки $N$ вместо всех свободных вхождений $x$ в $M$ обозначим $M[x := N]$ и определим как:
+\begin{align*}
+x[x := N] &\equiv N\\
+y[x := N] &\equiv y\ (\text{если } x \neq y)\\
+(M_1 \ M_2 )[x := N] &\equiv ((M_1 [x := N])\ (M_2 [x := N]))\\
+(\lambda y.M)[x := N] &\equiv (\lambda y.M[x := N])
+\end{align*}
+
+%TODO: Что-то про Variable convention
+\begin{tcolorbox}
+
+Условимся, что подстановка всегда выполняется корректно, то есть, заменяемая переменная никогда не является связанной ни в каких внутренних термах. Этой ситуации всегда можно избежать заменой имен во внутреннем терме. Например для следующей подстановки предварительно произведем замену имени во внутренней лямбды
+\[\lambda a.\lambda b.a\ b[a := b] = \lambda a.(\lambda b.a\ b[b := b'])[a := b] = \lambda b.\lambda b'.b\ b'\]
+
+
+\end{tcolorbox}
+
+Теперь мы готовы описать $\lambda$-исчисление как формальную теорию.\\
+
+Основная схема $\lambda$-исчисления
+\begin{equation*}
+\forall M, N \in \Lambda : (\lambda x.M)\ N = M[x := N]\tag{$\beta$}
+\end{equation*}
+
+\newtheorem{lemma}{Лемма}
+\begin{lemma}
+\[(\lambda x_1 \ x_2 \ \dots\ x_n .M)\ X_1 \ X_2 \ \dots\ X_n \equiv M[x_1 := X_1 ][x_2 := X_2]\dots[x_n := X_n ]\]
+\end{lemma}
+\begin{proof}
+Пусть $M' = \lambda x_2 \dots x_n .M$. По аксиоме $(\beta)$ мы имеем
+\[(\lambda x_1 .M')\ X_1 \ X_2 \ \dots\ X_n \equiv M'[x_1 := X_1 ] X_2 \ \dots\ X_n\]
+Дальнейшее равенство получаем индукцией по связанным переменным.
+\end{proof}
+
+\begin{tcolorbox}
+Однократное применение аксиомы ($\beta$) будем называть $\beta$-редукцией и обозанчать как ($\rb$)
+Применение аксиомы ($\beta$) ноль или более раз обозначим как $\rbm$
+Также введем отношение $\beta$-эквивалентности стандартным образом, как транзитивное замыкание отношения $\rbm$ и обозначим $=_\beta$
+%TODO: корректность этой фигни
+\end{tcolorbox}
+
+\begin{tcolorbox}
+На данном этапе мы можем относительно свободно строить различные термы, однако особый подход требуется для описания рекурсивный функций, о чем сейчас и пойдет речь. Для бестипового лямбда-исчисления справедлива следующая теорема:
+% [Теорема о неподвижной точке]
+\newtheorem*{fixpoint}{Теорема о неподвижной точке}
+\begin{fixpoint}
+\begin{align*}
+&(i)\ \ \forall F. \exists X. (F\ X = X) \\
+&\text{Более того, существует комбинатор, находящий $X$}\\
+% &\text{}\\
+&\ \ \ \ \ Y = \lambda f.(\lambda x.f\ (x\ x)) (\lambda x.f\ (x\ x))\\
+&(ii)\ \forall F.(Y\ F=F\ (Y\ F))
+\end{align*}
+\end{fixpoint}
+
+\begin{proof}
+~\\
+Определим $W = \lambda x.F(x\ x)$ и $X = W\ W$ тогда
+\begin{align*}
+X \equiv W\ W \equiv (\lambda x.F(x\ x))W \rightarrow_\beta\\
+F\ (W\ W) \equiv F X
+\end{align*}
+Аналогично
+\begin{align*}
+&Y\ F \rightarrow_\beta\\
+&(\lambda x.F\ (x\ x)) (\lambda f.(\lambda x.F\ (x\ x))) \rightarrow_\beta\\
+&F\ ((\lambda f.(\lambda x.F\ (x\ x))) (\lambda f.(\lambda x.F\ (x\ x)))) \equiv F\ (Y\ F)
+\end{align*}
+\end{proof}
+
+
+\end{tcolorbox}
+
+\end{document}
