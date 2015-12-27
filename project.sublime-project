@@ -11,8 +11,15 @@
 		"TEXroot": "lambda.tex",
 		"builder_settings":
 		{
-			"options": "--shell-escape",
-			// "program": "xelatex"
+			// "options": ["-shell-escape", "-interaction=nonstopmode", "-file-line-error"],
+			// "program": "pdflatex",
+			"command": [
+        "latexmk",
+        "-cd", "-e",
+        "$pdflatex = '%E -interaction=nonstopmode -synctex=1 -shell-escape %S %O'",
+        "-f",
+        "-pdf"
+    ]
 		},
 		"tex_file_exts":
 		[
