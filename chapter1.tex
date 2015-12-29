@@ -11,7 +11,7 @@ $\rbm$
 
 Опишем лямбда исчисление формально
 Множество лямбда-термов строится из бесконечного множества переменных $\mathcal{V}$ использованием аппликации и абстракции:
-\[\mathcal{V} = \{ v, v', v'', v''', ... \}\]
+\[\mathcal{V} = \{ v, v', v'', v''' \dots \}\]
 
 При этом:
 \begin{align*}
@@ -22,8 +22,8 @@ M \in \mathcal{V}, v \in \mathcal{V} & \implies \lambda v.M \in \Lambda & \text{
 
 Или же, используя БНФ:
 \begin{align*}
-var &::= v|var'\\
-\Lambda &::= var | (\textit{var var}) | ( \lambda var . \Lambda )
+V &::= v|V'\\
+\Lambda &::= V | (\Lambda\ \Lambda) | ( \lambda V . \Lambda )
 \end{align*}
 
 В дальнейшем условимся, что:
