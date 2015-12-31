@@ -1,4 +1,4 @@
-TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
+TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error -output-directory ./out/
 PROJECT = lambda
 
 UNAME := $(shell uname)
