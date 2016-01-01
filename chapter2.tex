@@ -1,38 +1,45 @@
 \documentclass[lambda.tex]{subfiles}
 \begin{document}
 
+\newcommand{\mmnot}{\text{not}}
+\newcommand{\mmand}{\text{and}}
+\newcommand{\mmor}{\text{or}}
+\newcommand{\mmif}{\text{if}}
+\newcommand{\mmt}{\text{True}}
+\newcommand{\mmf}{\text{False}}
+
 Поговорим о лямбда-исчислении со стороны программирования. Для начала построим булеву алгебру на лямбда исчислении.
 
-Пусть True и False некие лямбда термы, при этом $True \neq_\beta False$ один из возможных способов сделать это следующий
+Пусть True и False некие лямбда термы, при этом $\mmt \neq_\beta \mmf$ один из возможных способов сделать это следующий
 
 \begin{align*}
-True = \lambda a b.a\\
-False = \lambda a b.b
+\mmt = \lambda a b.a\\
+\mmf = \lambda a b.b
 \end{align*}
 
-Определим также термы and, or и not, представляющие соответсвующие опперации
+Определим также термы and, or и not, представляющие соответсвующие операции
 
 \begin{align*}
-and = \lambda t_1 t_2 a b . (t_1 (t_2 a b) b)\\
-or = \lambda t_1 t_2 a b.(t_1 a (t_2 a b))\\
-not = \lambda f a b . f b a
+&\mmand = \lambda t_1 t_2 a b . (t_1 (t_2 a b) b)\\
+&\mmor = \lambda t_1 t_2 a b.(t_1 a (t_2 a b))\\
+&\mmnot = \lambda f a b . f b a
 \end{align*}
 
 Доходчивый читатель сам удостоверится, что такие определения удовлетворяют аксиомам булевой алгебры.
 Мы можем проверить различные свойства булевой алгебры, к примеру проверим инволюцию отрицания
 
 \begin{align*}
-	not\ not\ x \rb
-	not\ \lambda a' b' . x b' a' \rb
+	\mmnot\ \mmnot\ x \rb
+	\mmnot\ \lambda a' b' . x b' a' \rb
 	\lambda a'' b'' . (\lambda a' b' . a b' a') b'' a'' \rbm
 	\lambda a'' b'' . x a'' b'' \equiv x
 \end{align*}
 
 Стоит также упомянуть условную конструкцию if
 \begin{align*}
-&if = \lambda t. t\\
-&if\ True\ a\ b \rbm a\\
-&if\ False\ a\ b \rbm b\\
+&\mmif = \lambda t. t\\
+&\mmif\ \mmt\ a\ b \rbm a\\
+&\mmif\ \mmf\ a\ b \rbm b\\
 \end{align*}
 
 Следующий пункт - натуральные числа
