@@ -12,6 +12,10 @@
 
 Поговорим о лямбда-исчислении со стороны программирования. Для начала построим булеву алгебру на лямбда исчислении.
 
+\paragraph{Логические конструкции} % (fold)
+\label{par:bolean}
+~\\
+
 Пусть \textbf{True} и \textbf{False} некие лямбда термы, при этом $\mmt \neq_\beta \mmf$. Один из возможных способов сделать это следующий
 
 \begin{align*}
@@ -43,6 +47,11 @@
 	&\mmif\ \mmt\ a\ b \rbm a\\
 	&\mmif\ \mmf\ a\ b \rbm b\\
 \end{align*}
+
+% paragraph логические_конструкции (end)
+\paragraph{Натуральные числа} % (fold)
+\label{par:natural_numbers}
+~\\
 
 Следующий пункт - натуральные числа
 % --- Нумералы  Чёрча
@@ -109,4 +118,5 @@
 и вычитание
 \[\mmterm{sub} = \lambda ab.b\ \mmterm{prev}\ a\]
 
+% paragraph natural_numbers (end)
 \end{document}
