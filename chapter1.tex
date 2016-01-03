@@ -160,7 +160,6 @@
 \end{equation*}
 
 Используя аксиому ($\beta$), сформулируем несколько служебных лемм:
-\newtheorem{lemma}{Лемма}
 \begin{lemma}{о множественной подстановке}
 	\[(\lambda x_1 \ x_2 \ \dots\ x_n .M)\ X_1 \ X_2 \ \dots\ X_n \equiv M[x_1 := X_1 ][x_2 := X_2]\dots[x_n := X_n ]\]
 \end{lemma}
@@ -282,7 +281,6 @@
 	\paragraph{Теорема Чёрча-Россера} % (fold)
 	\label{par:Church-Rosser}
 	Мы подошли к центральному моменту в $\lambda$-исчислении.
-	Следующа
 	\newtheorem*{churchrosser}{Теорема Чёрча-Россера (CR)}
 	\begin{churchrosser}
 		$$
@@ -294,15 +292,25 @@
 		\rbm N,N_2
 		\rbm N
 		$$
+		Иначе говоря, для $\beta$-редукции выполняется свойство ромба
+		\begin{align*}
+			\xymatrix{
+			& \ar@{->>}[dl]_\beta M \ar@{->>}[dr]^\beta \\
+			N_2 \ar@{->>}[dr]^\beta & & N_1 \ar@{->>}[dl]_\beta \\
+			&N
+		}
+		\end{align*}
 	\end{churchrosser}
-	Иначе говоря, для $\beta$-редукции выполняется свойство ромба
-	\begin{align*}
-		\xymatrix{
-		& \ar@{->>}[dl]_\beta M \ar@{->>}[dr]^\beta \\
-		N_2 \ar@{->>}[dr]^\beta & & N_1 \ar@{->>}[dl]_\beta \\
-		&N
-	}
-	\end{align*}
+
+
+	\begin{consequence}[Единственность нормальной формы]~\\
+		Пусть $N_1$ и $N_2$ - нормальные формы терма $N$. Тогда $N_1 = N_2$ 
+	\end{consequence}
+	\begin{proof}
+		По теореме CR $$\exists M.N_1 \rbm M, N_2 \rbm M$$
+		Из определения нормальной формы, термы $N_1$ и $N_2$ не имеют редексов.
+		$\implies$ $M=N_1$ и $M=N_2$ $\implies N_1 = N_2$
+	\end{proof}
 	% paragraph Church-Rosser (end)
 \end{tcolorbox}
 
