@@ -1,0 +1,61 @@
+\documentclass[lambda.tex]{subfiles}
+
+\newcommand{\mmterm}[1]{\text{\textbf{#1}}}
+\newcommand{\mmnot}{\mmterm{not}}
+\newcommand{\mmand}{\mmterm{and}}
+\newcommand{\mmor}{\mmterm{or}}
+\newcommand{\mmif}{\mmterm{if}}
+\newcommand{\mmt}{\mmterm{True}}
+\newcommand{\mmf}{\mmterm{False}}
+\newcommand{\mmchurchn}[1]{\boldsymbol{\overline{#1}}}
+
+\begin{document}
+\subsection*{Приложение}
+\subsubsection*{Задачи}
+\paragraph{Свободные и связанные переменные}~\\\\
+\textbf{Упражнение 1.}~\\
+\textbf{Дано:} Определения множества свободных ($FV$) и связанных ($BV$) переменных, лямбда терм.\\
+\textbf{Требуется:} Определить для него множества свободных и связанных переменных.
+\settasks{counter-format = tsk)}
+\begin{tasks}(1)
+	\task $\lambda xy.x\ z\ f\ y$
+	\task $\lambda xy.(\lambda y.f\ y)\ x\ f\ s\ y$
+	\task $\lambda xs.x\ s\ x$
+	\task $a\ f\ (\lambda ab.a\ x\ f\ b)\ m$
+	\task $\lambda axs.a\ (\lambda fx.x\ f)\ (s\ x)\ f$
+\end{tasks}
+\emph{Дополнительно: Есть ли среди них комбинаторы?}\\
+\\
+\textbf{Упражнение 2.}~\\
+\textbf{Дано:} Определения комбинаторов.\\
+\textbf{Требуется:} Написать соответствующие лямбда термы.
+\begin{tasks}(1)
+	\task $\boldsymbol{S}xyz = xz(yz)$
+	\task $\boldsymbol{K}xy = x$
+    \task $\boldsymbol{I}x = x$
+\end{tasks}
+\textbf{Задача 1.}~\\
+\emph{Используя определение комбинаторов \textbf{S} и \textbf{K} выразите комбинатор \textbf{I}.}
+\paragraph{Подстановки}~\\\\
+\textbf{Упражнение 3.}\\
+\textbf{Дано:} Лямбда терм.\\
+\textbf{Требуется:} Провести указанную подстановку.
+\begin{tasks}(1)
+	\task $(\lambda ab.b\ a)[a:=b]$
+	\task $(a\ s)[a:=b\ f\ s]$
+	\task $(\lambda a.x\ a\ b)[a:=\lambda g.y\ g]$
+	\task $(a\ x\ f)[x:=\lambda f.a\ f\ y]$
+\end{tasks}
+\paragraph{$\beta$-редукция}~\\\\
+\textbf{Упражнение 4.}\\
+\textbf{Дано:} Лямбда терм.\\
+\textbf{Требуется:} Провести бета-редукцию терма.
+\begin{tasks}(1)
+	\task $(\lambda x.x\ x)(\lambda x.x\ x)\rb$
+	\task $(\lambda fxy.f\ x\ y)(\lambda xy.y\ x)\rb$
+	\task $(\lambda f.(\lambda x.f\ (x\ x)) (\lambda x.f\ (x\ x)))\rb$ \emph{(для этого терма два шага)}
+	\task $(\lambda sxf.s\ x)(s\ f)(\lambda st.f\ s\ t)\rb$
+\end{tasks}
+\textbf{Задача 2.}~\\
+\emph{Напишите лямбда терм, который редуцируется в терм ``$n\ i\ l$''.}
+\end{document}
