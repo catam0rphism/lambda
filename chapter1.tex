@@ -163,9 +163,9 @@
 		\begin{itemize}
 		% TODO: стрелка => !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		% [В] DONE
-		 	\item $M = x$ \implies $N_1[y := N_2] \equiv N_1[y := N_2]$
-		 	\item $M = y$ \implies $N_2 \equiv N_2$ ($x\not\in FV(N_2)$)
-		 	\item $M = z$ ($z \neq x, y$) \implies $z \equiv z$
+		 	\item $M = x \implies N_1[y := N_2] \equiv N_1[y := N_2]$
+		 	\item $M = y \implies N_2 \equiv N_2$ ($x\not\in FV(N_2)$)
+		 	\item $M = z$ ($z \neq x, y$) $\implies z \equiv z$
 		 \end{itemize}
 		 \item M = $\lambda z.M_1$
 		 В силу соглашений, можно предположить, что $z \neq x,y$ и $z\not\in FV(N_1) \cup FV(N_2)$
