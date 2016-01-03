@@ -259,6 +259,32 @@
 Нормальная стратегия предполагают редукцию слева направо, снаружи внутрь. Это соответствует отказу от вычисления значений агрументов перед вызовом функции
 
 Существует утверждение(Карри) о том, что если у терма существует нормальная форма, то к ней можно придти при помощи ленивой стратегии вычислений. Не будем приводить доказательство этого факта ввиду его трудоемкости. 
-% paragraph Church-Rosser (end)
+
+\begin{tcolorbox}
+	\paragraph{Теорема Чёрча-Россера} % (fold)
+	\label{par:Church-Rosser}
+	Мы подошли к центральному моменту в $\lambda$-исчислении.
+	\newtheorem*{churchrosser}{Теорема Чёрча-Россера (CR)}
+	\begin{churchrosser}
+		$$
+		\forall M,N_1,N_2:M
+		\rbm N_1, M
+		\rbm N_2
+		\implies
+		\exists N : N_1
+		\rbm N,N_2
+		\rbm N
+		$$
+	\end{churchrosser}
+	Иначе говоря, выполняется следующее свойство
+	\begin{align*}
+		\xymatrix{
+		& \ar@{->>}[dl]_\beta M \ar@{->>}[dr]^\beta \\
+		N_2 \ar@{->>}[dr]^\beta & & N_1 \ar@{->>}[dl]_\beta \\
+		&N
+	}
+	\end{align*}
+	% paragraph Church-Rosser (end)
+\end{tcolorbox}
 
 \end{document}
