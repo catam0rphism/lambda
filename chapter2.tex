@@ -1,23 +1,25 @@
 \documentclass[lambda.tex]{subfiles}
 \begin{document}
 
-\newcommand{\mmnot}{\text{not}}
-\newcommand{\mmand}{\text{and}}
-\newcommand{\mmor}{\text{or}}
-\newcommand{\mmif}{\text{if}}
-\newcommand{\mmt}{\text{True}}
-\newcommand{\mmf}{\text{False}}
+\newcommand{\mmnot}{\text{\textbf{not}}}
+\newcommand{\mmand}{\text{\textbf{and}}}
+\newcommand{\mmor}{\text{\textbf{or}}}
+\newcommand{\mmif}{\text{\textbf{if}}}
+\newcommand{\mmt}{\text{\textbf{True}}}
+\newcommand{\mmf}{\text{\textbf{False}}}
+\newcommand{\mmterm}[1]{\text{\textbf{#1}}}
+\newcommand{\mmchurchn}[1]{\boldsymbol{\bar{#1}}}
 
 Поговорим о лямбда-исчислении со стороны программирования. Для начала построим булеву алгебру на лямбда исчислении.
 
-Пусть True и False некие лямбда термы, при этом $\mmt \neq_\beta \mmf$ один из возможных способов сделать это следующий
+Пусть \textbf{True} и \textbf{False} некие лямбда термы, при этом $\mmt \neq_\beta \mmf$. Один из возможных способов сделать это следующий
 
 \begin{align*}
 \mmt = \lambda a b.a\\
 \mmf = \lambda a b.b
 \end{align*}
 
-Определим также термы and, or и not, представляющие соответсвующие операции
+Определим также термы \textbf{and}, \textbf{or} и \textbf{not}, представляющие соответсвующие операции
 
 \begin{align*}
 &\mmand = \lambda t_1 t_2 a b . (t_1 (t_2 a b) b)\\
@@ -37,19 +39,22 @@
 
 Стоит также упомянуть условную конструкцию if
 \begin{align*}
-&\mmif = \lambda t. t\\
-&\mmif\ \mmt\ a\ b \rbm a\\
-&\mmif\ \mmf\ a\ b \rbm b\\
+	&\mmif = \lambda t. t\\
+	&\mmif\ \mmt\ a\ b \rbm a\\
+	&\mmif\ \mmf\ a\ b \rbm b\\
 \end{align*}
 
 Следующий пункт - натуральные числа
 % --- Нумералы  Чёрча
 Определим натуральные числа следующим образом:
-% 0 == λf x.x == const
-% 1 == λf x. f x == id
-% ..
-% n == λf.λx.f^n x
-% Где  f^n(x) == f(f(f(...f(x)))) n раз {тип композиция}  
+\begin{align*}
+	&\mmchurchn{0} = \lambda fx.x = \mmterm{const}\\
+	&\mmchurchn{1} = \lambda fx.f\ x = \mmterm{id}\\
+	&\dots\\
+	&\mmchurchn{n} = \lambda f.\lambda x.f^n x\\
+	&\text{Где }f^n(x) = \underbrace{f(f(f(\dots f(}_{n\text{ раз}}x))))
+\end{align*}
+
 Такое представление чисел назыается нумералами Чёрча
 Можно показать, что для них выполняются аксиомы Пеано.
 
