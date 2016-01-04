@@ -280,7 +280,7 @@
 \begin{tcolorbox}
 	\paragraph{Теорема Чёрча-Россера} % (fold)
 	\label{par:Church-Rosser}
-	Мы подошли к центральному моменту в $\lambda$-исчислении.
+	Мы подошли к центральному моменту в $\lambda$-исчислении. Часть вещей, описанных ранее, которые принимались как должное можно обосновать используя теорему, приведенную ниже. В какой-то мере, эта теорема обосновывает все наши допущения о корректности исчисления.
 	\newtheorem*{churchrosser}{Теорема Чёрча-Россера (CR)}
 	\begin{churchrosser}
 		$$
@@ -303,13 +303,30 @@
 	\end{churchrosser}
 
 
-	\begin{consequence}[Единственность нормальной формы]~\\
+	\begin{corollary}[Единственность нормальной формы]
+		~\\
 		Пусть $N_1$ и $N_2$ - нормальные формы терма $N$. Тогда $N_1 = N_2$ 
-	\end{consequence}
+	\end{corollary}
 	\begin{proof}
 		По теореме CR $$\exists M.N_1 \rbm M, N_2 \rbm M$$
 		Из определения нормальной формы, термы $N_1$ и $N_2$ не имеют редексов.
 		$\implies$ $M=N_1$ и $M=N_2$ $\implies N_1 = N_2$
+	\end{proof}
+	\begin{corollary}
+		Если $M =_\beta N$ и при этом один из термов имеет нормальную форму $Z$, второй также нормализуем, причем его нормальная форма равна $Z$
+	\end{corollary}
+	\begin{proof}
+		Не умоляя общности, пусть $Z$ - нормальная форма $M$, тогда 
+		$$M \rbm Z \implies M =_\beta Z \implies N =_\beta Z \implies N \rbm Z$$
+		Последнее следствие допустимо ввиду того, что $Z$ не имеет редексов
+	\end{proof}
+	\begin{corollary}
+		$\eta$-редукция не следует из ($\beta$)
+		~\\
+		$\lambda x.y\ x \neq_\beta y$
+	\end{corollary}
+	\begin{proof}
+		Термы $y$ и $\lambda x.y\ x$ находятся в нормальной форме, при этом $\lambda x.y\ x \neq_\alpha y$, а значит, $\lambda x.y\ x \neq_\beta y$ (ввиду единственности нормальной формы)
 	\end{proof}
 	% paragraph Church-Rosser (end)
 \end{tcolorbox}
