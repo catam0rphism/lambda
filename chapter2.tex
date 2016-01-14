@@ -46,6 +46,7 @@
 \end{align*}
 
 % paragraph логические_конструкции (end)
+\newpage
 \paragraph{Натуральные числа} % (fold)
 \label{par:natural_numbers}
 ~\\
@@ -114,6 +115,64 @@
 
 и вычитание
 \[\mmterm{sub} = \lambda ab.b\ \mmterm{prev}\ a\]
-
 % paragraph natural_numbers (end)
+\newpage
+\paragraph{Вычисление рекурсивных функций} % (fold)
+\label{par:factorial}~\\
+
+Обладая простыми арифметическими операциями можно перейти и к чему-то более сложному.
+Например, к вычислению факториала. Тем не менее для этого нам понадобится ещё один несложный терм, который будет возвращать \textbf{True} для $\mmchurchn{0}$ и \textbf{False} для всех других нумералов Чёрча.
+Назовём мы его \textbf{isZero} а определим как
+\[\mmterm{isZero} = \lambda n.n\ (\lambda x. \mmf)\ \mmt\]
+
+Проверим работоспособность данного определения:
+\begin{align*}
+	\mmterm{isZero}\ \mmchurchn{0} &\rb\\
+	\mmchurchn{0}\ (\lambda x.\mmf)\ \mmt &\equiv\\
+	(\lambda fx.x)\ (\lambda x.\mmf)\ \mmt &\rb\\
+	\mmt&\\
+	\\
+	\mmterm{isZero}\ \mmchurchn{n} &\rb\\
+	\mmchurchn{n}\ (\lambda x.\mmf)\ \mmt &\equiv\\
+	(\lambda fx.f^n\ x)\ (\lambda x.\mmf)\ \mmt &\rbm\\
+	\mmf&\\
+\end{align*}
+
+Следующим шагом, уже в практически естественном виде мы можем определить факториал как
+\[\mmterm{fact} = \lambda n. \mmif\ (\mmterm{isZero}\ n)\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{n}\ (\mmterm{fact}\ (\mmterm{prev}\ \mmchurchn{n})))\]
+Казалось бы, зачем заострять на этом внимание, если всё делается так просто?
+Дело в том, что такое выражение не является верным лямбда термом, потому что определяемый терм используется внутри терма.
+Мы зациклились.
+Для того чтобы избежать этого попробуем сначала отдельно выделить часть, использующую факториал
+\[\mmterm{T} = \lambda fn. \mmif\ (\mmterm{isZero}\ n)\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{n}\ (f\ (\mmterm{prev}\ \mmchurchn{n})))\]
+
+В таком случае факториал мы можем определить как
+\[\mmterm{fact} = \mmterm{T}\ \mmterm{fact}\]
+
+Казалось бы, мы ни чем не облегчили задачу, у нас всё ещё рекурсивный терм.
+Вот только в таком виде рекурсию мы уже видели, когда рассматривали замечательный комбинатор \textbf{Y}.
+Напоминаю, что его замечательность кроется в том, что
+\[\mmterm{Y}\ t \rbm t\ (\mmterm{Y}\ t)\]
+И он позволяет нам сделать так:
+\[\mmterm{fact} = \mmterm{Y}\ \mmterm{T}\]
+Проверим эту запись:
+\begin{align*}
+	\mmterm{fact}\ \mmchurchn{2} &\equiv\\
+	(\mmterm{Y}\ \mmterm{T})\ \mmchurchn{2} &\rbm\\
+	\mmterm{T}\ (\mmterm{Y}\ \mmterm{T})\ \mmchurchn{2} &\rb\\
+	\mmif\ (\mmterm{isZero}\ \mmchurchn{2})\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{2}\ ((\mmterm{Y}\ \mmterm{T})\ (\mmterm{prev}\ \mmchurchn{2}))) &\rbm\\
+	\mmterm{mul}\ \mmchurchn{2}\ ((\mmterm{Y}\ \mmterm{T})\ (\mmterm{prev}\ \mmchurchn{2})) &\equiv\\
+	\mmterm{mul}\ \mmchurchn{2}\ ((\mmterm{Y}\ \mmterm{T})\ \mmchurchn{1}) &\rbm\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmterm{T}\ (\mmterm{Y}\ \mmterm{T})\ \mmchurchn{1}) &\rb\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmif\ (\mmterm{isZero}\ \mmchurchn{1})\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{1}\ ((\mmterm{Y}\ \mmterm{T})\ (\mmterm{prev}\ \mmchurchn{1})))) &\rbm\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmterm{mul}\ \mmchurchn{1}\ ((\mmterm{Y}\ \mmterm{T})\ (\mmterm{prev}\ \mmchurchn{1}))) &\equiv\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmterm{mul}\ \mmchurchn{1}\ ((\mmterm{Y}\ \mmterm{T})\ \mmchurchn{0})) &\rbm\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmterm{mul}\ \mmchurchn{1}\ (\mmterm{T}\ (\mmterm{Y}\ \mmterm{T})\ \mmchurchn{0})) &\rb\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmterm{mul}\ \mmchurchn{1}\ (\mmif\ (\mmterm{isZero}\ \mmchurchn{0})\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{0}\ ((\mmterm{Y}\ \mmterm{T})\ (\mmterm{prev}\ \mmchurchn{0})))) &\equiv\\
+	\mmterm{mul}\ \mmchurchn{2}\ (\mmterm{mul}\ \mmchurchn{1}\ \mmchurchn{1}) &\rbm\\
+	\mmterm{mul}\ \mmchurchn{2}\ \mmchurchn{1} &\rbm\\
+	\mmchurchn{2}
+\end{align*}
+% paragraph factorial (end)
+
 \end{document}
