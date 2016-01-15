@@ -20,20 +20,31 @@ REMOVE_DIR = rm -r
 OUT_PATH = ./out/
 endif
 
-all: delprev $(PROJECT).pdf
+all: delprev $(PROJECT).pdf delprevpresent presentation.pdf
 
-delprev:
-	$(REMOVE) $(OUT_PATH)$(PROJECT).pdf
+presentation.pdf:
+	$(TEX) presentation.tex
+
+delprevpresent:
+	$(REMOVE) $(OUT_PATH)presentation.pdf
 
 $(PROJECT).pdf: $(PROJECT).tex
 	$(TEX) $(PROJECT).tex
+
+delprev:
+	$(REMOVE) $(OUT_PATH)$(PROJECT).pdf
 
 nice: all clean
 
 clean:
 	$(REMOVE) $(OUT_PATH)*.aux
+	$(REMOVE) *.aux
 	$(REMOVE) $(OUT_PATH)*.log
+	$(REMOVE) *.log
 	$(REMOVE) $(OUT_PATH)*.dvi
+	$(REMOVE) *.dvi
 	$(REMOVE) $(OUT_PATH)*.fdb_latexmk
+	$(REMOVE) *.fdb_latexmk
 	$(REMOVE) $(OUT_PATH)*.fls
+	$(REMOVE) *.fls
 	$(REMOVE_DIR) _minted-lambda

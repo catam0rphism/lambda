@@ -1,0 +1,270 @@
+\documentclass{beamer}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[english, russian]{babel} % Localisation
+
+% \usepackage{fontspec} % loaded by polyglossia, but included here for transparency 
+% \usepackage{polyglossia}
+% \setmainlanguage{russian} 
+% \setotherlanguage{english}
+
+\usepackage{amssymb} % More math symbols
+\usepackage{amsmath} % Math constructions
+\usepackage{amsthm} % Theorems
+\usepackage{tcolorbox} % Dima boxes shit
+\usepackage{subfiles} % File separation
+\usepackage[all]{xy} % Diagrams
+
+% \usepackage{minted} % Oh yes.
+
+% Beta reduction
+\newcommand{\rb}{\rightarrow_\beta}
+\newcommand{\rbm}{\twoheadrightarrow_\beta}
+\newcommand{\beteq}{=_\beta}
+
+% Eta reduction
+\newcommand{\rn}{\rightarrow_\eta}
+\newcommand{\rnm}{\twoheadrightarrow_\eta}
+\newcommand{\eteq}{=_\eta}
+
+% Terms for math mode
+\newcommand{\mmterm}[1]{\text{\textbf{#1}}}
+\newcommand{\mmnot}{\mmterm{not}}
+\newcommand{\mmand}{\mmterm{and}}
+\newcommand{\mmor}{\mmterm{or}}
+\newcommand{\mmif}{\mmterm{if}}
+\newcommand{\mmt}{\mmterm{True}}
+\newcommand{\mmf}{\mmterm{False}}
+\newcommand{\mmchurchn}[1]{\boldsymbol{\overline{#1}}}
+
+\usetheme{Rochester}
+\usecolortheme{rose}
+
+\title[Лямбда исчисление]{Краткое введение в лямбда исчисление}
+\author[Белкин, Бертыш]{Д.~Белкин \and В.~Бертыш}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}\frametitle{Формальное определение}
+
+Множество лямбда-термов строится из бесконечного множества переменных $\mathcal{V}$ использованием аппликации и абстракции:
+\[\mathcal{V} = \{ v, v', v'', v''' \dots \}\]
+
+\begin{align*}
+	x \in \mathcal{V} & \implies x \in \Lambda &\text{(Переменная является $\lambda$-термом)}\\
+	M, N \in \mathcal{V} & \implies M\ N \in \Lambda &\text{(Аппликация является $\lambda$-термом)}\\
+	M \in \mathcal{V}, v \in \mathcal{V} & \implies \lambda v.M \in \Lambda &\text{(Абстракция является $\lambda$-термом)}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Свободные и связанные переменные}
+
+Множество свободных переменных терма $N$ обозначается $FV(N)$
+
+\begin{align*}
+	FV(x) 			&\equiv \{x\}\\
+	FV(M\ N) 		&\equiv FV(M)\cup FV(N)\\
+	FV(\lambda x.N) &\equiv FV(N)\setminus\{x\}
+\end{align*}
+    
+Множество связанных переменных терма $N$ принято обозначать как $BV(N)$.
+Заметим, что переменная связана, если она образует абстракцию.
+Мы будем называть терм $M$ закрытым (или комбинатором), если \(FV(M) \equiv \varnothing\).
+Множество комбинаторов обозначим как $\Lambda^\circ$.
+
+\end{frame}
+
+\begin{frame}\frametitle{Подстановки}
+    
+Результат подстановки $N$ вместо всех свободных вхождений $x$ в $M$ обозначим $M[x := N]$ и определим как:
+\begin{align*}
+	x[x := N] &\equiv N\\
+	y[x := N] &\equiv y\ (\text{если } x \neq y)\\
+	(M_1 \ M_2 )[x := N] &\equiv ((M_1 [x := N])\ (M_2 [x := N]))\\
+	(\lambda y.M)[x := N] &\equiv (\lambda y.M[x := N])
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{$\alpha$-конверсия}
+    
+Введем на $\Lambda$ отношение эквивалентности, задаваемое следующим образом:
+\begin{align*}
+	\forall P\ P &=_\alpha P\\
+	\lambda x.P &=_\alpha \lambda y.P[x:=y] \text{, если } y \not\in FV(P)
+\end{align*}
+
+Это отношение назвается $\alpha$-эквивалентностью.
+
+Если $M =_\alpha N$, иногда также пишут $\lambda\models M =_\alpha N$
+
+\end{frame}
+
+\begin{frame}\frametitle{$\beta$-редукция}
+    
+Основная схема $\lambda$-исчисления
+\begin{equation*}
+	\forall M, N \in \Lambda : (\lambda x.M)\ N = M[x := N]\tag{$\beta$}
+\end{equation*}
+Однократное применение аксиомы ($\beta$) будем обозначать как ($\rb$).
+Место, где можно применить аксиому ($\beta$) будем называть редексом.
+Терм, в котором нет редексов будем называть нормальной формой выражения.
+Применение аксиомы ($\beta$) ноль или более раз (транзитивное замыкание $\rb$) будем называть $\beta$-редукцией и обозначим как $\rbm$.
+
+Также введем отношение $\beta$-эквивалентности, которое обозначим как $=_\beta$ и определим как
+\begin{align*}
+	&\forall M,N \in \Lambda: M \rbm N \implies M=_\beta N
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{$\eta$-редукция}
+    
+Дополним наше $\lambda$-исчисление еще одной аксиомой
+\begin{equation*}
+	\lambda x.M\ x \equiv M \text{ если }x \not\in FV(M) \tag{$\eta$}
+\end{equation*}
+Аналогично $\beta$-редукции вводятся однократное применение аксиомы $\eta$ ($\rn$), её транзитивное замыкание -- $\eta$-редукция ($\rnm$) и отношение $\eta$-эквивалентности ($=_\eta$).
+
+\end{frame}
+
+\begin{frame}\frametitle{Теорема о неподвижной точке}
+    
+\begin{align*}
+	&(i)\ \ \forall F\ \exists X\ (F\ X = X) \\
+	&\text{Более того, существует комбинатор, находящий $X$}\\
+	% &\text{}\\
+	&\ \ \ \ \ \boldsymbol{Y} = \lambda f.(\lambda x.f\ (x\ x)) (\lambda x.f\ (x\ x))\\
+	&(ii)\ \forall F\ \boldsymbol{Y}\ F=F\ (\boldsymbol{Y}\ F)
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Теорема Чёрча-Россера}
+    
+	$$
+	\forall M,N_1,N_2:M
+	\rbm N_1, M
+	\rbm N_2
+	\implies
+	\exists N : N_1
+	\rbm N,N_2
+	\rbm N
+	$$
+	Иначе говоря, для $\beta$-редукции выполняется свойство ромба
+	\begin{align*}
+		\xymatrix{
+		& \ar@{->>}[dl]_\beta M \ar@{->>}[dr]^\beta \\
+		N_2 \ar@{->>}[dr]^\beta & & N_1 \ar@{->>}[dl]_\beta \\
+		&N
+	}
+	\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Логические значения}
+    
+Пусть \textbf{True} и \textbf{False} некие лямбда термы, при этом $\mmt \neq_\beta \mmf$. Один из возможных способов сделать это следующий
+
+\begin{align*}
+\mmt = \lambda a b.a\\
+\mmf = \lambda a b.b
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Логические операции}
+    
+Определим термы \textbf{and}, \textbf{or} и \textbf{not}, представляющие соответствующие логические операции
+
+\begin{align*}
+&\mmand = \lambda t_1 t_2 a b . (t_1\ (t_2\ a\ b)\ b)\\
+&\mmor = \lambda t_1 t_2 a b.(t_1\ a\ (t_2\ a\ b))\\
+&\mmnot = \lambda f a b . f\ b\ a
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Ветвление}
+    
+Условную конструкцию if можно определить следующим образом
+\begin{align*}
+	&\mmif = \lambda t. t\\
+	&\mmif\ \mmt\ a\ b \rbm a\\
+	&\mmif\ \mmf\ a\ b \rbm b\\
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Натуральные числа}
+    
+Определим натуральные числа следующим образом:
+\begin{align*}
+	&\mmchurchn{0} = \lambda fx.x = \mmterm{const}\\
+	&\mmchurchn{1} = \lambda fx.f\ x = \mmterm{id}\\
+	&\dots\\
+	&\mmchurchn{n} = \lambda f.\lambda x.f^n x\\
+	&\text{Где }f^n(x) = \underbrace{f(f(f(\dots f(}_{n\text{ раз}}x))))
+\end{align*}
+
+Такое представление чисел называется нумералами Чёрча.
+
+\end{frame}
+
+\begin{frame}\frametitle{Простые арифметические операции}
+    
+Определим инкремент следующим образом:
+\begin{align*}
+	& \mmterm{succ}\ \mmchurchn{n} \equiv \mmchurchn{n+1}\\
+	& \mmterm{succ} = \lambda nfx. f\ (n\ f\ x)
+\end{align*}
+Сложение, умножение и возведение в степень определяются так:
+\begin{align*}
+	&\mmterm{add} = \lambda abfx.(b\ f\ (a\ f)\ x)\\
+	&\mmterm{mul} = \lambda abf.a\ (b\ f)\\
+	&\mmterm{pow} = \lambda ab.b\ a
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Сложные арифметические операции}
+    
+Вычитание -- сложно.
+Нужно для индуктивно построенного $\mmchurchn{n}$ найти $\mmchurchn{n-1}$.
+
+Решение -- пары.
+\begin{align*}
+	\mmterm{mkPair} = &\lambda abf.f\ a\ b\\
+	\mmterm{fst} = &\lambda p.p\ \mmterm{True}\\
+	\mmterm{snd} = &\lambda p.p\ \mmterm{False}
+\end{align*}
+Здесь $\mmterm{mkPair}$ создает пару, а $\mmterm{fst}$ и $\mmterm{snd}$ получают первый и второй элементы пары соответственно.
+
+Далее определим ``инкремент'' пары
+\[\mmterm{succP} = \lambda p. \mmterm{mkPair}\ (\mmterm{snd}\ p)\ (\mmterm{succ}\ (\mmterm{fst}\ p))\]
+
+\end{frame}
+
+\begin{frame}\frametitle{Вычитание}
+    
+Теперь можно определить декремент
+\[\mmterm{prev} = \lambda n.\mmterm{fst}\ (n\ \mmterm{succP}\ (\mmterm{mkPair}\ \mmchurchn{0}\ \mmchurchn{0}))\]
+
+и вычитание
+\[\mmterm{sub} = \lambda ab.b\ \mmterm{prev}\ a\]
+
+\end{frame}
+
+\begin{frame}\frametitle{Рекурсивные функции}
+    
+Попробуем написать терм, вычисляющий факториал.
+Для начала нужно определять, что $\mmchurchn{n} = \mmchurchn{0}$.
+Напишем терм, выполняющий эту проверку:
+\[\mmterm{isZero} = \lambda n.n\ (\lambda x. \mmf)\ \mmt\]
+
+\end{frame}
+
+\end{document}
