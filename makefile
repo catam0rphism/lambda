@@ -47,4 +47,8 @@ clean:
 	$(REMOVE) *.fdb_latexmk
 	$(REMOVE) $(OUT_PATH)*.fls
 	$(REMOVE) *.fls
+	$(REMOVE) $(OUT_PATH)*.nav
+	$(REMOVE) $(OUT_PATH)*.out
+	$(REMOVE) $(OUT_PATH)*.snm
+	$(REMOVE) $(OUT_PATH)*.toc
 	$(REMOVE_DIR) _minted-lambda
