@@ -267,4 +267,18 @@
 
 \end{frame}
 
+\begin{frame}\frametitle{Определение факториала}
+    
+Следующим шагом, уже в практически естественном виде мы можем определить факториал как
+\[\mmterm{fact} = \lambda n. \mmif\ (\mmterm{isZero}\ n)\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{n}\ (\mmterm{fact}\ (\mmterm{prev}\ \mmchurchn{n})))\]
+Но неверно, потому что зациклились.
+Выделим всё из рекурсивного вызова.
+\[\mmterm{T} = \lambda fn. \mmif\ (\mmterm{isZero}\ n)\ \mmchurchn{1}\ (\mmterm{mul}\ \mmchurchn{n}\ (f\ (\mmterm{prev}\ \mmchurchn{n})))\]
+Тогда факториал определяется как
+\[\mmterm{fact} = \mmterm{T}\ \mmterm{fact}\]
+Избавимся от зацикливания при помощи \textbf{Y}
+\[\mmterm{fact} = \mmterm{Y}\ \mmterm{T}\]
+Presto.
+\end{frame}
+
 \end{document}
